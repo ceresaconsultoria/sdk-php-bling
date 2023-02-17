@@ -1,0 +1,32 @@
+{
+    "name": "ceresaconsultoria/sdk-php-bling",
+    "description": "SDK PHP >=7.4 da API do Bling ERP",
+    "keywords": ["api", "library", "psr-4", "bling", "erp", "sdk"],
+    "homepage": "https://github.com/ceresaconsultoria/sdk-php-bling",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Weslley Ceresa",
+            "email": "ceresaconsultoria@gmail.com",
+            "homepage": "https://www.mobilestores.app"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bling\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": []
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "victorjonsson/markdowndocs": "^1.3"
+    }
+}
