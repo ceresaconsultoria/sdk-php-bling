@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=7.4",
-        "guzzlehttp/guzzle": "^7"
+        "guzzlehttp/guzzle": "^7",
+        "spatie/array-to-xml": "^2.17"
     },
     "autoload": {
         "psr-4": {

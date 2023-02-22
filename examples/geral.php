@@ -6,17 +6,19 @@ ini_set('display_errors', 1);
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$apiKey = '';
+use Spatie\ArrayToXml\ArrayToXml;
 
-$apiBlingCategoria = new Bling\Categoria();
+$apiKey = '-';
 
-$apiBlingCategoria->setToken($apiKey);
+$api = new Bling\FormasPagamento();
+
+$api->setToken($apiKey);
 
 try{
     
-    $categories = $apiBlingCategoria->detalhes(123);
+    $products = $api->listar();
     
-    \Bling\Helper\BlingHelper::dump($categories);
+    \Bling\Helper\BlingHelper::dump($products);
     
 } catch (\Exception $ex) {
     
@@ -24,13 +26,13 @@ try{
     
 }
 
-//$apiBlingProduto = new Bling\Produto();
+//$api = new Bling\Situacao();
 //
-//$apiBlingProduto->setToken($apiKey);
+//$api->setToken($apiKey);
 //
 //try{
 //    
-//    $products = $apiBlingProduto->listar();
+//    $products = $api->listar(Bling\Situacao::MODULO_VENDAS);
 //    
 //    \Bling\Helper\BlingHelper::dump($products);
 //    
@@ -39,3 +41,83 @@ try{
 //    \Bling\Helper\BlingHelper::dump($ex);
 //    
 //}
+
+//$api = new Bling\Pedido();
+//
+//$api->setToken($apiKey);
+//
+//try{
+//    
+//    $products = $api->listar();
+//    
+//    \Bling\Helper\BlingHelper::dump($products);
+//    
+//} catch (\Exception $ex) {
+//    
+//    \Bling\Helper\BlingHelper::dump($ex);
+//    
+//}
+
+//$api = new Bling\Pedido();
+//
+//$api->setToken($apiKey);
+//
+//try{
+//    
+//    $products = $api->detalhes(1);
+//    
+//    \Bling\Helper\BlingHelper::dump($products);
+//    
+//} catch (\Exception $ex) {
+//    
+//    \Bling\Helper\BlingHelper::dump($ex);
+//    
+//}
+
+//$apiBlingCategoria = new Bling\Categoria();
+//
+//$apiBlingCategoria->setToken($apiKey);
+//
+//try{
+//    
+//    $categories = $apiBlingCategoria->listar();
+//    
+//    \Bling\Helper\BlingHelper::dump($categories);
+//    
+//} catch (\Exception $ex) {
+//    
+//    \Bling\Helper\BlingHelper::dump($ex);
+//    
+//}
+
+//$apiBlingProduto = new Bling\Produto();
+//
+//$apiBlingProduto->setToken($apiKey);
+//
+//try{
+//    
+//    $products = $apiBlingProduto->detalhes(123123);
+//    
+//    \Bling\Helper\BlingHelper::dump($products);
+//    
+//} catch (\Exception $ex) {
+//    
+//    \Bling\Helper\BlingHelper::dump($ex);
+//    
+//}
+
+//\Bling\Helper\BlingHelper::dump(
+//    ArrayToXml::convert([
+//        'data' => '99/99/9999',
+//        'parcelas' => [
+//            [
+//                'parcela' => [
+//                    'data' => 'asdasdasd',
+//                    'vlr' => '1000',
+//                ]
+//            ]
+//        ]
+//    ], [
+//        'rootElementName' => 'pedido',
+//    ])    
+//);

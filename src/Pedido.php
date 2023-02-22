@@ -11,13 +11,19 @@ use GuzzleHttp\Exception\ServerException;
 
 class Pedido extends BlingController{
        
-    public function listar($produto, array $data){
+    public function listar(array $filters = [], $historicoOcorrencias = 'true'){
+        $query = [
+            'apikey' => $this->token,
+            'historico' => $historicoOcorrencias
+        ];
+        
+        if(!empty($filters)){
+            $query['filters'] = $this->processFilters($filters);
+        }
+        
         try{
-            $response = $this->http->get(sprintf('preco/v1/nacional/%s', $produto), array(
-                "headers" => [
-                    "Authorization" => $this->getToken()->getToken(),
-                ],
-                "query" => $data,
+            $response = $this->http->get(sprintf('pedidos/%s/', $this->responseFormat), array(
+                "query" => $query,
             ));
 
             $body = (string)$response->getBody();
@@ -26,39 +32,112 @@ class Pedido extends BlingController{
             
         } catch (ServerException $ex) {
             
-            $body = (string)$ex->getResponse()->getBody();
-            
-            $bodyDecoded = json_decode($body);
-            
-            if(isset($bodyDecoded->msgs)){
-                throw BlingException::fromObjectMessage($bodyDecoded->msgs, $ex->getCode(), $ex->getPrevious());
-            }
-            
             throw BlingException::fromObjectMessage('[ServerException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
                         
         } catch (ClientException $ex) {
-            
-            $body = (string)$ex->getResponse()->getBody();
-            
-            $bodyDecoded = json_decode($body);
-            
-            if(isset($bodyDecoded->msgs)){
-                throw BlingException::fromObjectMessage($bodyDecoded->msgs, $ex->getCode(), $ex->getPrevious());
-            }
             
             throw BlingException::fromObjectMessage('[ClientException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
             
         } catch (BadResponseException $ex) {
             
-            $body = (string)$ex->getResponse()->getBody();
+            throw BlingException::fromObjectMessage('[BadResponseException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
             
-            $bodyDecoded = json_decode($body);
+        } catch (Exception $ex) {
+            throw new BlingException($ex);
+        }
+    }
+    
+    public function atualizar($numero, array $data){
+        $postData = [
+            'apikey' => $this->token,
+            'xml' => ArrayToXml::convert($data, [
+                'rootElementName' => 'pedido',
+            ])  
+        ];
+        
+        try{
+            $response = $this->http->put(sprintf('pedido/%s/%s', $numero, $this->responseFormat), array(
+                GuzzleHttp\RequestOptions::FORM_PARAMS => $postData,
+            ));
+
+            $body = (string)$response->getBody();
+                        
+            return json_decode($body);
             
-            if(isset($bodyDecoded->msgs)){
-                
-                throw BlingException::fromObjectMessage($bodyDecoded->msgs, $ex->getCode(), $ex->getPrevious());
-                
-            }
+        } catch (ServerException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ServerException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+                        
+        } catch (ClientException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ClientException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+            
+        } catch (BadResponseException $ex) {
+            
+            throw BlingException::fromObjectMessage('[BadResponseException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+            
+        } catch (Exception $ex) {
+            throw new BlingException($ex);
+        }
+    }
+    
+    public function inserir(array $data){
+        $postData = [
+            'apikey' => $this->token,
+            'xml' => ArrayToXml::convert($data, [
+                'rootElementName' => 'pedido',
+            ])  
+        ];
+        
+        try{
+            $response = $this->http->post(sprintf('pedido/%s', $this->responseFormat), array(
+                GuzzleHttp\RequestOptions::FORM_PARAMS => $postData,
+            ));
+
+            $body = (string)$response->getBody();
+                        
+            return json_decode($body);
+            
+        } catch (ServerException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ServerException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+                        
+        } catch (ClientException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ClientException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+            
+        } catch (BadResponseException $ex) {
+            
+            throw BlingException::fromObjectMessage('[BadResponseException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+            
+        } catch (Exception $ex) {
+            throw new BlingException($ex);
+        }
+    }
+    
+    public function detalhes($numero){
+        $query = [
+            'apikey' => $this->token
+        ];
+        
+        try{
+            $response = $this->http->get(sprintf('pedido/%s/%s/', $numero, $this->responseFormat), array(
+                "query" => $query,
+            ));
+
+            $body = (string)$response->getBody();
+                        
+            return json_decode($body);
+            
+        } catch (ServerException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ServerException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+                        
+        } catch (ClientException $ex) {
+            
+            throw BlingException::fromObjectMessage('[ClientException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+            
+        } catch (BadResponseException $ex) {
             
             throw BlingException::fromObjectMessage('[BadResponseException] ' . $ex->getMessage(), $ex->getCode(), $ex->getPrevious());
             
