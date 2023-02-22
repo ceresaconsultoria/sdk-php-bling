@@ -21,7 +21,7 @@ use GuzzleHttp\Exception\ServerException;
  */
 class FormasPagamento extends BlingController{
     
-    public function listar(array $filters = []){
+    public function listar(array $filters = [], $page = 1){
         $query = [
             'apikey' => $this->token
         ];
@@ -31,7 +31,7 @@ class FormasPagamento extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('formaspagamento/%s/', $this->responseFormat), array(
+            $response = $this->http->get(sprintf('formaspagamento/%s/%s/', 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 

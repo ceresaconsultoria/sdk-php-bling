@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\ServerException;
 
 class Categoria extends BlingController{
        
-    public function listar(array $filters = []){
+    public function listar(array $filters = [], $page = 1){
         $query = [
             'apikey' => $this->token
         ];
@@ -21,7 +21,7 @@ class Categoria extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('categorias/%s/', $this->responseFormat), array(
+            $response = $this->http->get(sprintf('categorias/%s/%s/', 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 
@@ -77,7 +77,7 @@ class Categoria extends BlingController{
         }
     }
     
-    public function lojaListar($idLoja, array $filters = []){
+    public function lojaListar($idLoja, array $filters = [], $page = 1){
         $query = [
             'apikey' => $this->token
         ];
@@ -87,7 +87,7 @@ class Categoria extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('categoriasLoja/%s/%s/', $idLoja, $this->responseFormat), array(
+            $response = $this->http->get(sprintf('categoriasLoja/%s/%s/%s/', $idLoja, 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 

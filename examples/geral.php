@@ -10,21 +10,21 @@ use Spatie\ArrayToXml\ArrayToXml;
 
 $apiKey = '-';
 
-$api = new Bling\FormasPagamento();
-
-$api->setToken($apiKey);
-
-try{
-    
-    $products = $api->listar();
-    
-    \Bling\Helper\BlingHelper::dump($products);
-    
-} catch (\Exception $ex) {
-    
-    \Bling\Helper\BlingHelper::dump($ex);
-    
-}
+//$api = new Bling\FormasPagamento();
+//
+//$api->setToken($apiKey);
+//
+//try{
+//    
+//    $products = $api->listar();
+//    
+//    \Bling\Helper\BlingHelper::dump($products);
+//    
+//} catch (\Exception $ex) {
+//    
+//    \Bling\Helper\BlingHelper::dump($ex);
+//    
+//}
 
 //$api = new Bling\Situacao();
 //
@@ -89,6 +89,22 @@ try{
 //    \Bling\Helper\BlingHelper::dump($ex);
 //    
 //}
+
+$apiBlingProduto = new Bling\Produto();
+
+$apiBlingProduto->setToken($apiKey);
+
+try{
+    
+    $products = $apiBlingProduto->listar([], 2);
+    
+    \Bling\Helper\BlingHelper::dump($products);
+    
+} catch (\Exception $ex) {
+    
+    \Bling\Helper\BlingHelper::dump($ex);
+    
+}
 
 //$apiBlingProduto = new Bling\Produto();
 //

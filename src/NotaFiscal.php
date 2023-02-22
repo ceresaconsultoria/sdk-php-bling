@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\ServerException;
 
 class NotaFiscal extends BlingController{
 
-    public function listar(array $filters = []){
+    public function listar(array $filters = [], $page = 1){
         $query = [
             'apikey' => $this->token,
         ];
@@ -21,7 +21,7 @@ class NotaFiscal extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('notasfiscais/%s/', $this->responseFormat), array(
+            $response = $this->http->get(sprintf('notasfiscais/%s/%s/', 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 

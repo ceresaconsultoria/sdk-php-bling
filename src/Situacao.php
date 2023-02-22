@@ -25,7 +25,7 @@ class Situacao extends BlingController{
     const MODULO_PEDIDOCOMPRA = 'PedidosCompra';
     const MODULO_ORDEMSERVICO = 'OrdemServico';
     
-    public function listar($modulo, array $filters = []){
+    public function listar($modulo, array $filters = [], $page = 1){
         $query = [
             'apikey' => $this->token
         ];
@@ -35,7 +35,7 @@ class Situacao extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('situacao/%s/%s/', $modulo, $this->responseFormat), array(
+            $response = $this->http->get(sprintf('situacao/%s/%s/%s/', $modulo, 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 

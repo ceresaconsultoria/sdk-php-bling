@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\ServerException;
 
 class Pedido extends BlingController{
        
-    public function listar(array $filters = [], $historicoOcorrencias = 'true'){
+    public function listar(array $filters = [], $historicoOcorrencias = 'true', $page = 1){
         $query = [
             'apikey' => $this->token,
             'historico' => $historicoOcorrencias
@@ -22,7 +22,7 @@ class Pedido extends BlingController{
         }
         
         try{
-            $response = $this->http->get(sprintf('pedidos/%s/', $this->responseFormat), array(
+            $response = $this->http->get(sprintf('pedidos/%s/%s/', 'page='.$page, $this->responseFormat), array(
                 "query" => $query,
             ));
 
